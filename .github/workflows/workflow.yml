@@ -1,8 +1,23 @@
 name: 'Sample Workflow'
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      mobilenumber:
+        description: 'Enter you mobile number in format 91<mobile_number>'
+        required: true
+        default: '919958883734'
 jobs:
   clock-job:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Hey there! The time of the runner is\:"
+      - run: echo "Hey there! The time of the runner is "
       - run: timedatectl
+  greetings-job:
+    needs: clock-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clockwork Send SMS
+        uses: bharathvaj-ganesan/clockwork-sms-action@1.0.0
+        with:
+          to: ${{ github.event.inputs.mobilenumber }}
+          content: 'Hi! It is me Rimjhim doing my Coding Week.'
