@@ -2,10 +2,10 @@ name: 'Sample Workflow'
 on:
   workflow_dispatch:
     inputs:
-      mobilenumber:
-        description: 'Enter you mobile number in format 91<mobile_number>'
+      email:
+        description: 'Enter you email address.'
         required: true
-        default: '919958883734'
+        default: 'xyz@example.com'
 jobs:
   clock-job:
     runs-on: ubuntu-latest
@@ -16,8 +16,9 @@ jobs:
     needs: clock-job
     runs-on: ubuntu-latest
     steps:
-      - name: Clockwork Send SMS
-        uses: bharathvaj-ganesan/clockwork-sms-action@1.0.0
+      - name: CINotify Email
+        uses: cinotify/github-action@v1.1.0
         with:
-          to: ${{ github.event.inputs.mobilenumber }}
-          content: 'Hi! It is me Rimjhim doing my Coding Week.'
+          to: ${{ github.event.inputs.email }}
+          subject: 'Hello from Rimjhim'
+          body: 'Hey there! Hope you are doing good. It is me, Rimjhim doing my Coding Week. Great to meet you!'
